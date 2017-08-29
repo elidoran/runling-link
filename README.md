@@ -9,6 +9,7 @@ Features:
 1. works on *nix and windows
 2. has readable command via words instead of a bunch of hard to remember options
 3. (best part) it accepts both paths as relative paths from the current working directory. it will make the symlink's path relative. This means we can use tab-completion even when we are creating the symlink in a different directory than the current working directory.
+4. creates soft links by default
 
 A plugin for [runling](https://www.npmjs.com/package/runling).
 
@@ -30,26 +31,26 @@ runling add plugin @runling/link
 
 ```sh
 # basic readable version. 'link' = 'ln' and 'mklink'.
-runling link from existingThing to newSymlink
+runling link from newSymlinkPath to existingPath
 
 # can drop the extra words:
-runling link existingThing newSymlink
+runling link newSymlinkPath existingPath
 
 # *both* paths are relative to current working directly.
 # it will make the symlink's path relative to its target.
-runling link pathRelativeToHere1 pathRelativeToHere2
+runling link pathRelativeToCWD1 pathRelativeToCWD2
 ```
 
 
 ## Difference from Usual Command
 
-Note, this is different than the traditional `ln` command which wants the symlink path first and the path to what it links to second.
+Note, this is different than the traditional `ln` command which wants the symlink path second and the path it links to first.
 
-That would do `ln newSymlink existingThing`, we do `ln existingThing newSymlink`.
+Traditional would do `ln -s existingPath newSymlinkPath`, we do `runlink ln newSymlinkPath existingPath`.
 
-Why? Because I look at it as the command I'm running is going from something I already have and making something new, the symlink, elsewhere. So, I specify the thing I have and then where I want to create the symlink which should point back to it. So, my way is focusing on the command and what it's doing.
+Why? Because I look at it from the point of view of the symlink itself. It links from where it is to the other path. So, in its perspective, it is first and "goes" to the other.
 
-The other way to look at it is from the point of view of the symlink itself. It links from where it is to the thing which already existed. So, in its perspective, it is first and "goes" to the other. That's true and makes sense. For me tho, it's backwards when I'm making the symlink.
+When running the command `ls -al` which shows descriptions of symlinks it would show `newSymlinkPath -> existingPath`. So, that's the order I prefer to specify the arguments.
 
 
 ## [MIT License](LICENSE)
