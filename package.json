@@ -1,6 +1,6 @@
 {
   "name": "@runling/link",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Create symlinks on *nix and windows",
   "preferGlobal": true,
   "author": "Eli Doran <eli+npm@elidoran.com>",
