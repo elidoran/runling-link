@@ -1,5 +1,5 @@
-var fs   = require('fs')
-var path = require('path')
+var fs = require('fs')
+var corepath = require('path')
 
 module.exports = function link(done, shared) {
   var source, target, command, args
@@ -29,12 +29,12 @@ module.exports = function link(done, shared) {
   if (!source) return done('@runling/link requires source')
   if (!target) return done('@runling/link requires target')
 
-  if (!path.isAbsolute(target)) { // make it an absolute path
-    target = path.resolve(target)
+  if (!corepath.isAbsolute(target)) { // make it an absolute path
+    target = corepath.resolve(target)
   }
 
   // set it to a path relative to `source`
-  target = path.relative(path.dirname(source), target)
+  target = corepath.relative(directory(source), target)
 
   // TODO: allow hard links?
   if (process.platform === 'win32') {
@@ -68,4 +68,11 @@ function isDirectory(path) {
   catch (e) {
     return false
   }
+}
+
+function directory(path) {
+
+  // if it's already a directory then return it,
+  // otherwise, return its containing directory.
+  return isDirectory(path) ? path : corepath.dirname(path)
 }
